@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Java 和 js 互加解密(2) — RSA非对称加密算法 | 黄小鱼的个人博客</title>
+    <meta name="description" content="">
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/img/favicon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/md5-js@0.0.3/md5.min.js"></script>
+    <script type="text/javascript" src="https://hm.baidu.com/hm.js?7416f9f03c8c29e159637a2b26fa47ac"></script>
+    <meta name="description" content="日常笔记，个人随笔">
+    <link rel="preload" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/css/0.styles.29c9ccc7.css" as="style"><link rel="preload" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/app.d0033b28.js" as="script"><link rel="preload" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/3.fef87ffa.js" as="script"><link rel="preload" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/4.1bcccd14.js" as="script"><link rel="preload" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/18.0353e3a7.js" as="script"><link rel="preload" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/9.41320d8a.js" as="script"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/10.ea855e90.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/11.8f50bd74.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/12.54768731.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/13.d9c0b472.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/14.de1f6da7.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/15.6f5762d6.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/16.ed9efa2a.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/17.d7bc9ceb.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/19.94865ec7.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/2.b9637e6e.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/20.c035d260.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/21.8fd1ee73.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/22.bf7d5ed8.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/23.3d356ed7.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/24.8e609a87.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/25.cc86d137.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/26.963277ed.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/27.70f0f019.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/28.76476a23.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/29.b7d62e24.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/30.93b2e53a.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/31.f34e24d2.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/32.c7203841.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/33.ba9abd55.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/34.90c985e1.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/35.0e9a268c.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/36.e3540f48.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/37.6360b3df.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/38.addd854d.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/39.da52fe73.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/40.8d793a32.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/41.a92aa77d.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/42.a05b8f99.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/43.5de84868.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/44.47f5735f.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/45.de2a8cbf.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/46.073c7d7a.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/47.bf3aabf6.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/48.8f215051.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/49.327907ca.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/5.494a177a.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/6.cc18b175.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/7.aa172dc1.js"><link rel="prefetch" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/8.a4d12f52.js">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/css/0.styles.29c9ccc7.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="ant-row"><div class="sidebar-button"><i aria-label="icon: bars" class="anticon anticon-bars"><svg viewBox="0 0 1024 1024" focusable="false" data-icon="bars" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M912 192H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 284H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 284H328c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h584c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM104 228a56 56 0 1 0 112 0 56 56 0 1 0-112 0zm0 284a56 56 0 1 0 112 0 56 56 0 1 0-112 0zm0 284a56 56 0 1 0 112 0 56 56 0 1 0-112 0z"></path></svg></i> <span></span></div> <div class="ant-col ant-col-xs-24 ant-col-sm-24 ant-col-md-6 ant-col-lg-5 ant-col-xl-5 ant-col-xxl-4"><a href="/" class="router-link-active no-logo home-link"><!----> <span class="site-name">黄小鱼的个人博客</span></a> <div class="search-box mobile-search"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div></div> <div class="ant-col ant-col-xs-0 ant-col-sm-0 ant-col-md-18 ant-col-lg-19 ant-col-xl-19 ant-col-xxl-20"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><ul role="menu" id="nav" class="ant-menu ant-menu-horizontal ant-menu-root ant-menu-light"><li role="menuitem" class="ant-menu-submenu ant-menu-submenu-horizontal ant-menu-overflowed-submenu" style="display:none;"><div aria-haspopup="true" class="ant-menu-submenu-title"><span>···</span><i class="ant-menu-submenu-arrow"></i></div></li><li role="menuitem" class="ant-menu-item"><a href="/" class="router-link-active">
+          首页
+        </a></li><li role="menuitem" class="ant-menu-submenu ant-menu-submenu-horizontal ant-menu-overflowed-submenu" style="display:none;"><div aria-haspopup="true" class="ant-menu-submenu-title"><span>···</span><i class="ant-menu-submenu-arrow"></i></div></li><li role="menuitem" class="ant-menu-item"><a href="/guide/">
+          文章
+        </a></li><li role="menuitem" class="ant-menu-submenu ant-menu-submenu-horizontal ant-menu-overflowed-submenu" style="display:none;"><div aria-haspopup="true" class="ant-menu-submenu-title"><span>···</span><i class="ant-menu-submenu-arrow"></i></div></li><li role="menuitem" class="ant-menu-item"><a href="/tools/">
+          工具
+        </a></li><li role="menuitem" class="ant-menu-submenu ant-menu-submenu-horizontal ant-menu-overflowed-submenu" style="display:none;"><div aria-haspopup="true" class="ant-menu-submenu-title"><span>···</span><i class="ant-menu-submenu-arrow"></i></div></li><li role="menuitem" class="ant-menu-item"><a href="/message/">
+          留言
+        </a></li><li role="menuitem" class="ant-menu-submenu ant-menu-submenu-horizontal ant-menu-overflowed-submenu" style="visibility:hidden;position:absolute;"><div aria-haspopup="true" class="ant-menu-submenu-title"><span>···</span><i class="ant-menu-submenu-arrow"></i></div></li></ul> <a href="https://github.com/hxulin/my-blog" target="_blank" rel="noopener noreferrer" class="repo-link"><i aria-label="icon: github" class="anticon anticon-github"><svg viewBox="64 64 896 896" focusable="false" data-icon="github" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"></path></svg></i></a></nav></div></div> <!----></header> <aside class="sidebar"><!----> <ul class="sidebar-links"><li><a href="/guide/" title="快速索引" class="sidebar-link">快速索引</a></li><li><a href="/2022/01/04/mysql-sort-move-up-and-move-down/" title="MySQL 中自定义排序，上移、下移功能的设计" class="sidebar-link">MySQL 中自定义排序，上移、下移功能的设计</a></li><li><a href="/2021/11/29/logic-delete-and-unique-key/" title="逻辑删除和唯一索引" class="sidebar-link">逻辑删除和唯一索引</a></li><li><a href="/2021/07/17/use-acme-sh-apply-ssl-certificate/" title="使用 acme.sh 申请免费自动续期的 SSL 证书" class="sidebar-link">使用 acme.sh 申请免费自动续期的 SSL 证书</a></li><li><a href="/2021/07/15/mysql-procedure-samples/" title="一个 MySQL 存储过程的样例，备查" class="sidebar-link">一个 MySQL 存储过程的样例，备查</a></li><li><a href="/2021/07/04/java8-date-time-processing/" title="Java8 之日期处理，工作必用" class="sidebar-link">Java8 之日期处理，工作必用</a></li><li><a href="/2021/05/12/vmware-centos7-boot-optimization/" title="VMware 安装 CentOS7 开机优化" class="sidebar-link">VMware 安装 CentOS7 开机优化</a></li><li><a href="/2021/05/07/idea-hot-key-ctrl-shift-f-invalid/" title="IDEA 快捷键 Ctrl+Shift+F 失效问题" class="sidebar-link">IDEA 快捷键 Ctrl+Shift+F 失效问题</a></li><li><a href="/2021/04/13/css3-flex-horizontal-vertical-center/" title="CSS3 flex 布局水平垂直居中" class="sidebar-link">CSS3 flex 布局水平垂直居中</a></li><li><a href="/2021/04/11/vi-common-commands-summary/" title="VI 常用命令总结" class="sidebar-link">VI 常用命令总结</a></li><li><a href="/2021/04/11/mongodb-replica-set-deploy/" title="MongoDB 副本集集群部署" class="sidebar-link">MongoDB 副本集集群部署</a></li><li><a href="/2021/04/10/nginx-compile-install-with-https/" title="Nginx 编译安装，支持 HTTPS" class="sidebar-link">Nginx 编译安装，支持 HTTPS</a></li><li><a href="/2021/03/28/gluster-file-system-install/" title="Gluster 分布式存储系统快速安装步骤" class="sidebar-link">Gluster 分布式存储系统快速安装步骤</a></li><li><a href="/2021/03/27/centos7-turn-off-selinux-firewall/" title="CentOS7 关闭 selinux、防火墙" class="sidebar-link">CentOS7 关闭 selinux、防火墙</a></li><li><a href="/2021/03/27/centos7-set-timezone-hostname-hosts/" title="CentOS7 集群环境设置时区、主机名，配置 hosts 文件" class="sidebar-link">CentOS7 集群环境设置时区、主机名，配置 hosts 文件</a></li><li><a href="/2021/03/22/centos7-system-version-cpu-memory-disk/" title="查看系统版本，CPU核数，内存、磁盘使用情况" class="sidebar-link">查看系统版本，CPU核数，内存、磁盘使用情况</a></li><li><a href="/2019/03/30/spring-data-jpa-result-set-mapping/" title="Spring Data JPA使用原生SQL做复杂查询，结果封装到自定义实体" class="sidebar-link">Spring Data JPA使用原生SQL做复杂查询，结果封装到自定义实体</a></li><li><a href="/2019/01/15/spring-ioc-container/" title="Spring IoC容器" class="sidebar-link">Spring IoC容器</a></li><li><a href="/2019/01/12/jquery-common-function/" title="jQuery一些常用函数的小结" class="sidebar-link">jQuery一些常用函数的小结</a></li><li><a href="/2018/12/29/rabbitmq-common-commands/" title="RabbitMQ常用命令总结" class="sidebar-link">RabbitMQ常用命令总结</a></li><li><a href="/2018/12/22/in-depth-understanding-string-intern/" title="深入解析String#intern（转）" class="sidebar-link">深入解析String#intern（转）</a></li><li><a href="/2018/12/17/equals-hashcode-method/" title="Java 中的 equals() 和 hashCode() 方法" class="sidebar-link">Java 中的 equals() 和 hashCode() 方法</a></li><li><a href="/2018/12/08/encryption-rsa/" aria-current="page" title="Java 和 js 互加解密(2) — RSA非对称加密算法" class="active sidebar-link">Java 和 js 互加解密(2) — RSA非对称加密算法</a></li><li><a href="/2018/12/02/encryption-aes/" title="Java 和 js 互加解密(1) — AES对称加密算法" class="sidebar-link">Java 和 js 互加解密(1) — AES对称加密算法</a></li><li><a href="/2018/11/25/batch-package/" title="批量复制 War/Jar 文件" class="sidebar-link">批量复制 War/Jar 文件</a></li></ul></aside> <main class="page"> <div class="theme-antdocs-content content__default"><h1 id="java-和-js-互加解密-2-rsa非对称加密算法"><a href="#java-和-js-互加解密-2-rsa非对称加密算法" class="header-anchor">#</a> Java 和 js 互加解密(2) — RSA非对称加密算法</h1> <div class="post-meta" style="margin-bottom:1rem;" data-v-b624ef2c><i aria-label="icon: calendar" class="anticon anticon-calendar" data-v-b624ef2c><svg viewBox="64 64 896 896" focusable="false" data-icon="calendar" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M880 184H712v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H384v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H144c-17.7 0-32 14.3-32 32v664c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V216c0-17.7-14.3-32-32-32zm-40 656H184V460h656v380zM184 392V256h128v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h256v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h128v136H184z"></path></svg></i> <span class="date" data-v-b624ef2c>发表于 2018-12-08</span></div> <p>本文整理了 Java 和 js 关于RSA算法的互加解密，方便开发使用。部分代码来源于网络。</p> <blockquote><p>公钥加密，私钥解密（同一公钥加密相同的数据，加密结果一般不同，与填充方式有关）</p> <p>私钥加密，公钥解密（同一私钥加密相同的数据，加密结果一定相同）</p> <p>私钥签名，公钥验签</p></blockquote> <img src="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/img/20181208/encryption-rsa/results-screenshots.png" alt="Java 和 js 互加解密 — RSA非对称加密"> <p>Java 和 js 互加解密 — RSA非对称加密</p> <h2 id="开始之前"><a href="#开始之前" class="header-anchor">#</a> 开始之前</h2> <ul><li><p>对称加密算法和非对称加密算法比较</p> <p><strong>对称加密算法：</strong> 加解密使用相同的密钥，安全性较低，计算量较小，加解密效率较高</p> <p><strong>非对称加密算法：</strong> 加解密使用不同的密钥，安全性较高，计算量较大，加解密效率较低，可以做数字签名</p></li> <li><p>对称加密算法和非对称加密算法，怎么选择？</p> <p>参考HTTPS协议的加密方案：两种算法结合使用，<strong>使用非对称加密算法加密对称加密算法的密钥</strong>，使用对称加密算法加解密数据，既保证安全，又保证效率。</p></li></ul> <h2 id="rsa算法简介"><a href="#rsa算法简介" class="header-anchor">#</a> RSA算法简介</h2> <p>先看看基佬给我们的解释。</p> <blockquote><p><strong>RSA加密算法</strong>是一种<a href="https://zh.wikipedia.org/wiki/%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E6%BC%94%E7%AE%97%E6%B3%95" target="_blank" rel="noopener noreferrer">非对称加密算法<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>。在公开密钥加密和电子商业中RSA被广泛使用。RSA是1977年由罗纳德·李维斯特（Ron Rivest）、阿迪·萨莫尔（Adi Shamir）和伦纳德·阿德曼（Leonard Adleman）一起提出的。当时他们三人都在麻省理工学院工作。RSA就是他们三人姓氏开头字母拼在一起组成的。</p></blockquote> <p>更多信息请查阅维基词条：<a href="https://zh.wikipedia.org/wiki/RSA%E5%8A%A0%E5%AF%86%E6%BC%94%E7%AE%97%E6%B3%95" target="_blank" rel="noopener noreferrer">RSA加密算法<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <h2 id="java实现rsa加解密"><a href="#java实现rsa加解密" class="header-anchor">#</a> Java实现RSA加解密</h2> <p>该工具类基于 jdk1.8 进行封装，如果你的 jdk 低于1.8，部分代码可能需要做一定的调整（如Base64编码解码）</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>io<span class="token punctuation">.</span></span><span class="token class-name">ByteArrayOutputStream</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>security<span class="token punctuation">.</span></span><span class="token class-name">Key</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>security<span class="token punctuation">.</span></span><span class="token class-name">KeyFactory</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>security<span class="token punctuation">.</span></span><span class="token class-name">KeyPair</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>security<span class="token punctuation">.</span></span><span class="token class-name">KeyPairGenerator</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>security<span class="token punctuation">.</span></span><span class="token class-name">PrivateKey</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>security<span class="token punctuation">.</span></span><span class="token class-name">PublicKey</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>security<span class="token punctuation">.</span></span><span class="token class-name">Signature</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>security<span class="token punctuation">.</span>spec<span class="token punctuation">.</span></span><span class="token class-name">PKCS8EncodedKeySpec</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>security<span class="token punctuation">.</span>spec<span class="token punctuation">.</span></span><span class="token class-name">X509EncodedKeySpec</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span></span><span class="token class-name">Base64</span></span><span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">javax<span class="token punctuation">.</span>crypto<span class="token punctuation">.</span></span><span class="token class-name">Cipher</span></span><span class="token punctuation">;</span>
+
+<span class="token comment">/**
+ * RSA加解密、签名、验签的工具类
+ *
+ * @author hxulin
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">RSAUtils</span> <span class="token punctuation">{</span>
+
+    <span class="token comment">/**
+     * 字符编码
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">String</span> CHARACTER_ENCODING <span class="token operator">=</span> <span class="token string">&quot;utf-8&quot;</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * 加密算法
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">String</span> KEY_ALGORITHM <span class="token operator">=</span> <span class="token string">&quot;RSA&quot;</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * 签名算法
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">String</span> SIGNATURE_ALGORITHM <span class="token operator">=</span> <span class="token string">&quot;MD5withRSA&quot;</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * RSA单次加密的最大明文长度
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> MAX_ENCRYPT_BLOCK <span class="token operator">=</span> <span class="token number">117</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * RSA单次解密的最大密文长度
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> MAX_DECRYPT_BLOCK <span class="token operator">=</span> <span class="token number">128</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">RSAUtils</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * Base64编码
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">encryptBASE64</span><span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token class-name">Base64</span><span class="token punctuation">.</span><span class="token function">getEncoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">encodeToString</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * Base64解码
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">decryptBASE64</span><span class="token punctuation">(</span><span class="token class-name">String</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token class-name">Base64</span><span class="token punctuation">.</span><span class="token function">getDecoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">decode</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 初始化密钥
+     *
+     * @return 随机生成的密钥对
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">KeyPair</span> <span class="token function">initKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token class-name">KeyPairGenerator</span> keyPairGen <span class="token operator">=</span> <span class="token class-name">KeyPairGenerator</span><span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span>KEY_ALGORITHM<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            keyPairGen<span class="token punctuation">.</span><span class="token function">initialize</span><span class="token punctuation">(</span><span class="token number">1024</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> keyPairGen<span class="token punctuation">.</span><span class="token function">generateKeyPair</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 获取公钥
+     *
+     * @param keyPair 密钥对对象
+     * @return Base64编码的公钥
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">getPublicKey</span><span class="token punctuation">(</span><span class="token class-name">KeyPair</span> keyPair<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">encryptBASE64</span><span class="token punctuation">(</span>keyPair<span class="token punctuation">.</span><span class="token function">getPublic</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getEncoded</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 获取私钥
+     *
+     * @param keyPair 密钥对对象
+     * @return Base64编码的私钥
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">getPrivateKey</span><span class="token punctuation">(</span><span class="token class-name">KeyPair</span> keyPair<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">encryptBASE64</span><span class="token punctuation">(</span>keyPair<span class="token punctuation">.</span><span class="token function">getPrivate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getEncoded</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 使用公钥加密数据
+     *
+     * @param data 需要加密的原文
+     * @param key  公钥
+     * @return 加密后进行Base64的密文
+     * @throws Exception 加密失败
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">encryptByPublicKey</span><span class="token punctuation">(</span><span class="token class-name">String</span> data<span class="token punctuation">,</span> <span class="token class-name">String</span> key<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">encryptBASE64</span><span class="token punctuation">(</span><span class="token function">encryptByPublicKey</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span>CHARACTER_ENCODING<span class="token punctuation">)</span><span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 使用公钥加密数据
+     *
+     * @param data 需要加密的数据
+     * @param key  公钥
+     * @return 加密后的数据
+     * @throws Exception 加密失败
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">encryptByPublicKey</span><span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">,</span> <span class="token class-name">String</span> key<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">cryptoByPublicKey</span><span class="token punctuation">(</span><span class="token class-name">Cipher</span><span class="token punctuation">.</span>ENCRYPT_MODE<span class="token punctuation">,</span> data<span class="token punctuation">,</span> <span class="token function">decryptBASE64</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 使用公钥解密数据
+     *
+     * @param data 需要解密的密文
+     * @param key  公钥
+     * @return 解密后的明文
+     * @throws Exception 解密失败
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">decryptByPublicKey</span><span class="token punctuation">(</span><span class="token class-name">String</span> data<span class="token punctuation">,</span> <span class="token class-name">String</span> key<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span><span class="token function">decryptByPublicKey</span><span class="token punctuation">(</span><span class="token function">decryptBASE64</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">,</span> CHARACTER_ENCODING<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 使用公钥解密数据
+     *
+     * @param data 需要解密的数据
+     * @param key  公钥
+     * @return 解密后的数据
+     * @throws Exception 解密失败
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">decryptByPublicKey</span><span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">,</span> <span class="token class-name">String</span> key<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">cryptoByPublicKey</span><span class="token punctuation">(</span><span class="token class-name">Cipher</span><span class="token punctuation">.</span>DECRYPT_MODE<span class="token punctuation">,</span> data<span class="token punctuation">,</span> <span class="token function">decryptBASE64</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 使用公钥加解密数据
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">cryptoByPublicKey</span><span class="token punctuation">(</span><span class="token keyword">int</span> opmode<span class="token punctuation">,</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">,</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> keyBytes<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 取得公钥</span>
+        <span class="token class-name">X509EncodedKeySpec</span> x509KeySpec <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">X509EncodedKeySpec</span><span class="token punctuation">(</span>keyBytes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">KeyFactory</span> keyFactory <span class="token operator">=</span> <span class="token class-name">KeyFactory</span><span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span>KEY_ALGORITHM<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Key</span> publicKey <span class="token operator">=</span> keyFactory<span class="token punctuation">.</span><span class="token function">generatePublic</span><span class="token punctuation">(</span>x509KeySpec<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 对数据进行加解密</span>
+        <span class="token class-name">Cipher</span> cipher <span class="token operator">=</span> <span class="token class-name">Cipher</span><span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span>keyFactory<span class="token punctuation">.</span><span class="token function">getAlgorithm</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        cipher<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span>opmode<span class="token punctuation">,</span> publicKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token function">handleResult</span><span class="token punctuation">(</span>opmode<span class="token punctuation">,</span> data<span class="token punctuation">,</span> cipher<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * RSA加解密数据有长度限制，此处对数据做分段处理
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">handleResult</span><span class="token punctuation">(</span><span class="token keyword">int</span> opmode<span class="token punctuation">,</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">,</span> <span class="token class-name">Cipher</span> cipher<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> inputLen <span class="token operator">=</span> data<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        <span class="token class-name">ByteArrayOutputStream</span> out <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ByteArrayOutputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> offset <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> cache<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> maxHandleLength <span class="token operator">=</span> opmode <span class="token operator">==</span> <span class="token class-name">Cipher</span><span class="token punctuation">.</span>ENCRYPT_MODE <span class="token operator">?</span> MAX_ENCRYPT_BLOCK <span class="token operator">:</span> MAX_DECRYPT_BLOCK<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>inputLen <span class="token operator">&gt;</span> offset<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> length <span class="token operator">=</span> inputLen <span class="token operator">-</span> offset <span class="token operator">&gt;</span> maxHandleLength <span class="token operator">?</span> maxHandleLength <span class="token operator">:</span> inputLen <span class="token operator">-</span> offset<span class="token punctuation">;</span>
+            cache <span class="token operator">=</span> cipher<span class="token punctuation">.</span><span class="token function">doFinal</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> offset<span class="token punctuation">,</span> length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            out<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>cache<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> cache<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            i<span class="token operator">++</span><span class="token punctuation">;</span>
+            offset <span class="token operator">=</span> i <span class="token operator">*</span> maxHandleLength<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> resultData <span class="token operator">=</span> out<span class="token punctuation">.</span><span class="token function">toByteArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        out<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> resultData<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 使用私钥加密数据
+     *
+     * @param data 需要加密的原文
+     * @param key  私钥
+     * @return 加密后进行Base64的密文
+     * @throws Exception 加密失败
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">encryptByPrivateKey</span><span class="token punctuation">(</span><span class="token class-name">String</span> data<span class="token punctuation">,</span> <span class="token class-name">String</span> key<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">encryptBASE64</span><span class="token punctuation">(</span><span class="token function">encryptByPrivateKey</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span>CHARACTER_ENCODING<span class="token punctuation">)</span><span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 使用私钥加密数据
+     *
+     * @param data 需要加密的数据
+     * @param key  私钥
+     * @return 加密后的数据
+     * @throws Exception 加密失败
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">encryptByPrivateKey</span><span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">,</span> <span class="token class-name">String</span> key<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">cryptoByPrivateKey</span><span class="token punctuation">(</span><span class="token class-name">Cipher</span><span class="token punctuation">.</span>ENCRYPT_MODE<span class="token punctuation">,</span> data<span class="token punctuation">,</span> <span class="token function">decryptBASE64</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 使用私钥解密数据
+     *
+     * @param data 需要解密的密文
+     * @param key  私钥
+     * @return 解密后的明文
+     * @throws Exception 解密失败
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">decryptByPrivateKey</span><span class="token punctuation">(</span><span class="token class-name">String</span> data<span class="token punctuation">,</span> <span class="token class-name">String</span> key<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span><span class="token function">decryptByPrivateKey</span><span class="token punctuation">(</span><span class="token function">decryptBASE64</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">,</span> CHARACTER_ENCODING<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 使用私钥解密数据
+     *
+     * @param data 需要解密的数据
+     * @param key  私钥
+     * @return 解密后的数据
+     * @throws Exception 解密失败
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">decryptByPrivateKey</span><span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">,</span> <span class="token class-name">String</span> key<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">cryptoByPrivateKey</span><span class="token punctuation">(</span><span class="token class-name">Cipher</span><span class="token punctuation">.</span>DECRYPT_MODE<span class="token punctuation">,</span> data<span class="token punctuation">,</span> <span class="token function">decryptBASE64</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 使用私钥加解密数据
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">cryptoByPrivateKey</span><span class="token punctuation">(</span><span class="token keyword">int</span> opmode<span class="token punctuation">,</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">,</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> keyBytes<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 取得私钥</span>
+        <span class="token class-name">PKCS8EncodedKeySpec</span> pkcs8KeySpec <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PKCS8EncodedKeySpec</span><span class="token punctuation">(</span>keyBytes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">KeyFactory</span> keyFactory <span class="token operator">=</span> <span class="token class-name">KeyFactory</span><span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span>KEY_ALGORITHM<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Key</span> privateKey <span class="token operator">=</span> keyFactory<span class="token punctuation">.</span><span class="token function">generatePrivate</span><span class="token punctuation">(</span>pkcs8KeySpec<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 对数据进行加解密</span>
+        <span class="token class-name">Cipher</span> cipher <span class="token operator">=</span> <span class="token class-name">Cipher</span><span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span>keyFactory<span class="token punctuation">.</span><span class="token function">getAlgorithm</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        cipher<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span>opmode<span class="token punctuation">,</span> privateKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token function">handleResult</span><span class="token punctuation">(</span>opmode<span class="token punctuation">,</span> data<span class="token punctuation">,</span> cipher<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 创建数字签名
+     *
+     * @param data       需要签名的数据
+     * @param privateKey 私钥
+     * @return 签名信息
+     * @throws Exception 签名失败
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">sign</span><span class="token punctuation">(</span><span class="token class-name">String</span> data<span class="token punctuation">,</span> <span class="token class-name">String</span> privateKey<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">sign</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span>CHARACTER_ENCODING<span class="token punctuation">)</span><span class="token punctuation">,</span> privateKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 创建数字签名
+     *
+     * @param data       需要签名的数据
+     * @param privateKey 私钥
+     * @return 签名信息
+     * @throws Exception 签名失败
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">sign</span><span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">,</span> <span class="token class-name">String</span> privateKey<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 使用Base64解码私钥</span>
+        <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> keyBytes <span class="token operator">=</span> <span class="token function">decryptBASE64</span><span class="token punctuation">(</span>privateKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">PKCS8EncodedKeySpec</span> pkcs8KeySpec <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PKCS8EncodedKeySpec</span><span class="token punctuation">(</span>keyBytes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">KeyFactory</span> keyFactory <span class="token operator">=</span> <span class="token class-name">KeyFactory</span><span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span>KEY_ALGORITHM<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 获取私钥匙对象</span>
+        <span class="token class-name">PrivateKey</span> priKey <span class="token operator">=</span> keyFactory<span class="token punctuation">.</span><span class="token function">generatePrivate</span><span class="token punctuation">(</span>pkcs8KeySpec<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 使用私钥对信息生成数字签名</span>
+        <span class="token class-name">Signature</span> signature <span class="token operator">=</span> <span class="token class-name">Signature</span><span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span>SIGNATURE_ALGORITHM<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        signature<span class="token punctuation">.</span><span class="token function">initSign</span><span class="token punctuation">(</span>priKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        signature<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token function">encryptBASE64</span><span class="token punctuation">(</span>signature<span class="token punctuation">.</span><span class="token function">sign</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 校验数字签名
+     *
+     * @param data      被签名的数据
+     * @param publicKey 公钥
+     * @param sign      数字签名
+     * @return 校验成功返回true，失败返回false
+     * @throws Exception 校验错误
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">verify</span><span class="token punctuation">(</span><span class="token class-name">String</span> data<span class="token punctuation">,</span> <span class="token class-name">String</span> publicKey<span class="token punctuation">,</span> <span class="token class-name">String</span> sign<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">verify</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span>CHARACTER_ENCODING<span class="token punctuation">)</span><span class="token punctuation">,</span> publicKey<span class="token punctuation">,</span> sign<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * 校验数字签名
+     *
+     * @param data      被签名的数据
+     * @param publicKey 公钥
+     * @param sign      数字签名
+     * @return 校验成功返回true，失败返回false
+     * @throws Exception 校验错误
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">verify</span><span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">,</span> <span class="token class-name">String</span> publicKey<span class="token punctuation">,</span> <span class="token class-name">String</span> sign<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 使用Base64解码公钥</span>
+        <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> keyBytes <span class="token operator">=</span> <span class="token function">decryptBASE64</span><span class="token punctuation">(</span>publicKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">X509EncodedKeySpec</span> keySpec <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">X509EncodedKeySpec</span><span class="token punctuation">(</span>keyBytes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">KeyFactory</span> keyFactory <span class="token operator">=</span> <span class="token class-name">KeyFactory</span><span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span>KEY_ALGORITHM<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 获取公钥匙对象</span>
+        <span class="token class-name">PublicKey</span> pubKey <span class="token operator">=</span> keyFactory<span class="token punctuation">.</span><span class="token function">generatePublic</span><span class="token punctuation">(</span>keySpec<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Signature</span> signature <span class="token operator">=</span> <span class="token class-name">Signature</span><span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span>SIGNATURE_ALGORITHM<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        signature<span class="token punctuation">.</span><span class="token function">initVerify</span><span class="token punctuation">(</span>pubKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        signature<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 验证签名是否正常</span>
+        <span class="token keyword">return</span> signature<span class="token punctuation">.</span><span class="token function">verify</span><span class="token punctuation">(</span><span class="token function">decryptBASE64</span><span class="token punctuation">(</span>sign<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+</code></pre></div><p>使用样例：</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">import</span> <span class="token import"><span class="token namespace">org<span class="token punctuation">.</span>junit<span class="token punctuation">.</span></span><span class="token class-name">Before</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">org<span class="token punctuation">.</span>junit<span class="token punctuation">.</span></span><span class="token class-name">Test</span></span><span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>security<span class="token punctuation">.</span></span><span class="token class-name">KeyPair</span></span><span class="token punctuation">;</span>
+
+<span class="token comment">/**
+ * RSA加解密测试
+ *
+ * @author hxulin
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">RSAUtilsTest</span> <span class="token punctuation">{</span>
+
+	<span class="token keyword">private</span> <span class="token class-name">String</span> publicKey<span class="token punctuation">;</span>
+	<span class="token keyword">private</span> <span class="token class-name">String</span> privateKey<span class="token punctuation">;</span>
+
+	<span class="token annotation punctuation">@Before</span>
+	<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token comment">// 初始化RSA密钥对</span>
+		<span class="token class-name">KeyPair</span> keyPair <span class="token operator">=</span> <span class="token class-name">RSAUtils</span><span class="token punctuation">.</span><span class="token function">initKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token comment">// 获取公钥</span>
+		publicKey <span class="token operator">=</span> <span class="token class-name">RSAUtils</span><span class="token punctuation">.</span><span class="token function">getPublicKey</span><span class="token punctuation">(</span>keyPair<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;生成公钥：&quot;</span> <span class="token operator">+</span> publicKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token comment">// 获取私钥</span>
+		privateKey <span class="token operator">=</span> <span class="token class-name">RSAUtils</span><span class="token punctuation">.</span><span class="token function">getPrivateKey</span><span class="token punctuation">(</span>keyPair<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;生成私钥：&quot;</span> <span class="token operator">+</span> privateKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+
+	<span class="token annotation punctuation">@Test</span>
+	<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+		<span class="token class-name">String</span> data <span class="token operator">=</span> <span class="token string">&quot;欢迎访问 https://huangxulin.cn/&quot;</span><span class="token punctuation">;</span>
+		<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;待加密数据：&quot;</span> <span class="token operator">+</span> data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+		<span class="token class-name">String</span> encrypt <span class="token operator">=</span> <span class="token class-name">RSAUtils</span><span class="token punctuation">.</span><span class="token function">encryptByPublicKey</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> publicKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;公钥加密：&quot;</span> <span class="token operator">+</span> encrypt<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token class-name">String</span> decrypt <span class="token operator">=</span> <span class="token class-name">RSAUtils</span><span class="token punctuation">.</span><span class="token function">decryptByPrivateKey</span><span class="token punctuation">(</span>encrypt<span class="token punctuation">,</span> privateKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;私钥解密：&quot;</span> <span class="token operator">+</span> decrypt<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+		encrypt <span class="token operator">=</span> <span class="token class-name">RSAUtils</span><span class="token punctuation">.</span><span class="token function">encryptByPrivateKey</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> privateKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;私钥加密：&quot;</span> <span class="token operator">+</span> encrypt<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		decrypt <span class="token operator">=</span> <span class="token class-name">RSAUtils</span><span class="token punctuation">.</span><span class="token function">decryptByPublicKey</span><span class="token punctuation">(</span>encrypt<span class="token punctuation">,</span> publicKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;公钥解密：&quot;</span> <span class="token operator">+</span> decrypt<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+		<span class="token class-name">String</span> sign <span class="token operator">=</span> <span class="token class-name">RSAUtils</span><span class="token punctuation">.</span><span class="token function">sign</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> privateKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;私钥签名：&quot;</span> <span class="token operator">+</span> sign<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword">boolean</span> verify <span class="token operator">=</span> <span class="token class-name">RSAUtils</span><span class="token punctuation">.</span><span class="token function">verify</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> publicKey<span class="token punctuation">,</span> sign<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;公钥验签：&quot;</span> <span class="token operator">+</span> verify<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+</code></pre></div><p>运行结果：</p> <img src="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/img/20181208/encryption-rsa/rsa-test.png" alt="RSA 加解密测试" style="margin-bottom:.3rem;"> <p>RSA 加解密测试</p> <h2 id="js实现rsa加解密"><a href="#js实现rsa加解密" class="header-anchor">#</a> js实现RSA加解密</h2> <p>前端 js 实现RSA加解密，依赖第三方库：<a href="https://github.com/travist/jsencrypt" target="_blank" rel="noopener noreferrer">jsencrypt<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">/**
+ * RSA公钥加密
+ *
+ * @param content 待加密数据
+ * @param publicKey 公钥
+ * @returns {string} 加密结果
+ */</span>
+<span class="token keyword">function</span> <span class="token function">rsaEncrypt</span><span class="token punctuation">(</span><span class="token parameter">content<span class="token punctuation">,</span> publicKey</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> encrypt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JSEncrypt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    encrypt<span class="token punctuation">.</span><span class="token function">setPublicKey</span><span class="token punctuation">(</span>publicKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> encrypt<span class="token punctuation">.</span><span class="token function">encrypt</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/**
+ * RSA私钥解密
+ *
+ * @param content 待解密数据
+ * @param privateKey 私钥
+ * @returns {string} 解密结果
+ */</span>
+<span class="token keyword">function</span> <span class="token function">rsaDecrypt</span><span class="token punctuation">(</span><span class="token parameter">content<span class="token punctuation">,</span> privateKey</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> encrypt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JSEncrypt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    encrypt<span class="token punctuation">.</span><span class="token function">setPrivateKey</span><span class="token punctuation">(</span>privateKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> encrypt<span class="token punctuation">.</span><span class="token function">decrypt</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>完整项目地址：<a href="https://github.com/hxulin/encryption" target="_blank" rel="noopener noreferrer">https://github.com/hxulin/encryption<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>（完）</p></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/hxulin/my-blog/edit/master/site/_posts/2018-12-08-encryption-rsa.md" target="_blank" rel="noopener noreferrer">在 GitHub 上编辑此页</a> <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></div> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">2022-06-26 12:38:39</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev"><a href="/2018/12/17/equals-hashcode-method/" class="prev"><i aria-label="icon: left" class="anticon anticon-left"><svg viewBox="64 64 896 896" focusable="false" data-icon="left" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8a31.86 31.86 0 0 0 0 50.3l450.8 352.1c5.3 4.1 12.9.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z"></path></svg></i>
+        Java 中的 equals() 和 hashCode() 方法
+      </a></span> <span class="next"><a href="/2018/12/02/encryption-aes/">
+        Java 和 js 互加解密(1) — AES对称加密算法
+        <i aria-label="icon: right" class="anticon anticon-right"><svg viewBox="64 64 896 896" focusable="false" data-icon="right" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M765.7 486.8L314.9 134.7A7.97 7.97 0 0 0 302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 0 0 0-50.4z"></path></svg></i></a></span></p></div> </main> <!----></div><div class="global-ui"><div></div></div></div>
+    <script src="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/app.d0033b28.js" defer></script><script src="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/3.fef87ffa.js" defer></script><script src="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/4.1bcccd14.js" defer></script><script src="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/18.0353e3a7.js" defer></script><script src="https://cdn.jsdelivr.net/gh/hxulin/hxulin.github.io/assets/js/9.41320d8a.js" defer></script>
+  </body>
+</html>
